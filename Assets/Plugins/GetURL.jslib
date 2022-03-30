@@ -8,12 +8,30 @@ mergeInto(LibraryManager.library, {
         return buffer;
     },
  
-    FinishGame: function (path) {
-        window.location.href="https://devgamification.psikologicare.com" + Pointer_stringify(path);
-	localStorage.removeItem("from");
-   },
+    GetQueryParam: function(paramId) {
+        var urlParams = new URLSearchParams(location.search);
+        var param = urlParams.get(Pointer_stringify(paramId));
+        var bufferSize = lengthBytesUTF8(param) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(param, buffer, bufferSize);
+        return buffer;
+    },
+
+    FinishGame: function (str) {
+        window.location.href=Pointer_stringify(str);
+	    localStorage.removeItem("from");
+        localStorage.removeItem("rendered");
+    },
    
-   StartGame: function () {
-       localStorage.setItem('start', false);
-   }
+    StartGame: function () {
+        localStorage.setItem('start', false);
+    },
+    
+    OnGameStarted: function () {
+        window.gameIsRunning = true;
+    },
+    
+    AddRendered: function (str) {
+        localStorage.setItem("rendered", true);
+    },
 });
